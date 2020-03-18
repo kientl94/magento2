@@ -40,13 +40,17 @@ class IfDirective implements DirectiveProcessorInterface
             return $construction[0];
         }
 
-        if ($this->variableResolver->resolve($construction[1], $filter, $templateVariables) == '') {
+        if (isset($construction[1]) && $this->variableResolver->resolve($construction[1], $filter, $templateVariables) == '') {
             if (isset($construction[3]) && isset($construction[4])) {
                 return $filter->filter($construction[4]);
             }
             return '';
         } else {
-            return $filter->filter($construction[2]);
+            if (isset($construction[2])) {
+                return $filter->filter($construction[2]);
+            } else {
+                return '';
+            }
         }
     }
 
